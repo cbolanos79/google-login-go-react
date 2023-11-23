@@ -12,7 +12,7 @@ import (
 )
 
 type Login struct {
-	Credentials string `json:"credentials"`
+	Credential string `json:"credential"`
 }
 
 type ErrorMessage struct {
@@ -30,16 +30,22 @@ func main() {
 		login := Login{}
 		c.Bind(&login)
 
-		if len(login.Credentials) == 0 {
+        // Return HTTP 422 if credential value is not set
+		if len(login.Credential) == 0 {
 			m := ErrorMessage{"Missing credential value"}
 			return c.JSON(http.StatusUnprocessableEntity, &m)
 		}
 
-		payload, err := idtoken.Validate(context.Background(), login.Credentials, google_client_id)
+        // Validate credential with google client
+        // Omit payload value, but real world application should handle it
+		_, err := idtoken.Validate(context.Background(), login.Credential, google_client_id)
 
+        // Return HTTP 422 if there was any error
 		if err != nil {
 			return c.JSON(http.StatusUnprocessableEntity, ErrorMessage{fmt.Sprintf("Error validating credentials: %v", err)})
 		}
+
+        // Return HTTP 200 if success
 		return c.JSON(http.StatusOK, nil)
 	})
 
