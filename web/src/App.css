@@ -49,3 +49,27 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+.bg-green {
+  background-color: #0f0;
+}
+
+.bg-darkgreen {
+  background-color: #0b0;
+}
+
+.bg-red {
+  background-color: #f00;
+}
+
+.bg-darkred {
+  background-color: #b00;
+}
+
+.text-white {
+  color: #fff;
+}
+
+h4 {
+  margin: 0;
+}
