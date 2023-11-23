@@ -39,6 +39,9 @@ body {
 
 .card {
   padding: 2em;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 5px -3px rgba(119,119,119,0.5);
 }
 
 .read-the-docs {
