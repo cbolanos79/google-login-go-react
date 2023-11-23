@@ -11,6 +11,14 @@ import (
 	"google.golang.org/api/idtoken"
 )
 
+type Login struct {
+	Credentials string `json:"credentials"`
+}
+
+type ErrorMessage struct {
+	Message string `json:"message"`
+}
+
 func main() {
 	google_client_id := os.Getenv("GOOGLE_CLIENT_ID")
 
@@ -19,13 +27,20 @@ func main() {
 
 	// Validate user token with google
 	e.POST("/login/google", func(c echo.Context) error {
-		// TODO: get credentials from JSON request
+		login := Login{}
+		c.Bind(&login)
 
-		credentials := ""
-		payload, err := idtoken.Validate(context.Background(), credentials, client_id)
+		if len(login.Credentials) == 0 {
+			m := ErrorMessage{"Missing credential value"}
+			return c.JSON(http.StatusUnprocessableEntity, &m)
+		}
 
-		// TODO: check if payload is valid
-		// TODO: send response
+		payload, err := idtoken.Validate(context.Background(), login.Credentials, google_client_id)
+
+		if err != nil {
+			return c.JSON(http.StatusUnprocessableEntity, ErrorMessage{fmt.Sprintf("Error validating credentials: %v", err)})
+		}
+		return c.JSON(http.StatusOK, nil)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
