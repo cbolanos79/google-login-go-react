@@ -5,6 +5,9 @@ import './App.css'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 
+const clientId = import.meta.env['VITE_GOOGLE_CLIENT_ID']
+const base_url = "http://localhost:8080"
+
 function Card({type, content}) {
   let class_name = "card text-white"
   if (type == "success") {
