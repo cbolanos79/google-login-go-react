@@ -23,15 +23,13 @@ function Card({type, content}) {
   )
 }
 
-
-function validateCredential() {
-  console.log(credentialResponse);
+function validateCredential(credential, setLogin) {
   fetch(`${base_url}/login/google`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({credential: credentialResponse.credential})
+    body: JSON.stringify({credential: credential.credential})
   }).
   then(
     response => {
