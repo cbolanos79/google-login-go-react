@@ -22,6 +22,7 @@ function Card({type, content}) {
 
 function App() {
   const clientId = import.meta.env['VITE_GOOGLE_CLIENT_ID']
+  const [login, setLogin] = useState({logged: false, errorMessage: null})  
 
   return (
     <>
@@ -33,13 +34,18 @@ function App() {
           <GoogleLogin
             onSuccess={credentialResponse => {
               console.log(credentialResponse);
+              setLogin({success: true})
             }}
             onError={() => {
               console.log('Login Failed');
+              setLogin({success: false, error: true, message: "Error loggin with google"})
             }}
         />
         </GoogleOAuthProvider>
       </div>
+      <br /><br />
+      { login.success === true && <Card content="Success!" type="success" /> }
+      { login.success === false && <Card content={"Error logging!\n" + login.message} type="error" /> }
     </>
   )
 }
