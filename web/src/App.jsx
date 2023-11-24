@@ -20,9 +20,41 @@ function Card({type, content}) {
   )
 }
 
+
+function validateCredential() {
+  console.log(credentialResponse);
+  fetch(`${base_url}/login/google`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({credential: credentialResponse.credential})
+  }).
+  then(
+    response => {
+      if (response.status >= 400) {
+        throw "Error connecting to server - status " + response.status
+      } else {
+        return response.json()
+      }
+    },
+    error => {
+      throw new Error(error)
+    }).
+  then(data => {
+    console.log(data)
+    setLogin({success: true})
+  }).
+  catch(error => {
+    console.log(error)
+    setLogin({success: false, message: error})
+  })
+}
+
 function App() {
   const clientId = import.meta.env['VITE_GOOGLE_CLIENT_ID']
   const [login, setLogin] = useState({logged: false, errorMessage: null})  
+  const base_url = "http://localhost:8080"
 
   return (
     <>
@@ -32,15 +64,12 @@ function App() {
         <br /><br />
         <GoogleOAuthProvider clientId={clientId}>
           <GoogleLogin
-            onSuccess={credentialResponse => {
-              console.log(credentialResponse);
-              setLogin({success: true})
-            }}
+            onSuccess={validateCredential}
             onError={() => {
               console.log('Login Failed');
-              setLogin({success: false, error: true, message: "Error loggin with google"})
+              setLogin({success: false, message: "Error loggin with google"})
             }}
-        />
+          />
         </GoogleOAuthProvider>
       </div>
       <br /><br />
