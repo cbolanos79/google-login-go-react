@@ -8,11 +8,11 @@ class Card extends Component {
   render() {
     const type = this.props.type
 
-    let class_name = "card text-white"
+    let class_name = "card"
     if (type == "success") {
-      class_name += " bg-darkgreen"
+      class_name += " bg-darkgreen text-white"
     } else if (type == "error") {
-      class_name += " bg-darkred"
+      class_name += " bg-darkred text-white"
     }
 
     return (
