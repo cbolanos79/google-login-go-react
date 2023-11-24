@@ -1,8 +1,53 @@
-# Google login with react and go
+# Introduction
 
 A simple project focused on learning how to integrate frontend and backend using React and Go.
 The goal is to login on Google using Google Login javascript, and check if credential is valid by sending a request to google API in backend. After validating credential, a response is sent showing if credential is valid or not.
 Take into account a valid google developer account and client are required. There are a lot of tutorials on how to them.
+
+# How to run
+
+There are two components:
+
+- API
+- Web
+
+Each one has to be started separately.
+
+## API
+
+Before starting API server, create a .env file with this content
+```
+GOOGLE_CLIENT_ID=...
+```
+
+Place your google client ID insde
+
+In order to start API server, run it using Go >= 1.20
+
+```bash
+go run .
+```
+
+By default listens on localhost:8080
+
+## Web
+
+Before starting web server, create a .env file with this content
+```
+GOOGLE_CLIENT_ID=...
+```
+
+npm and vite are required to run web server, ensure they are installed at first.
+
+Start web server:
+
+```
+npm run dev
+```
+
+By default listens on localhost:5173
+
+Given this is a project for learning purposes it is ok to run in development mode.
 
 # Flow
 Show a google login in frontend using react and send credential to backend in order to validate it.
