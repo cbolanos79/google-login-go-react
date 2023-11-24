@@ -1,27 +1,13 @@
-import { useState } from 'react'
+import { useState, Component } from 'react'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import { Card } from './card.jsx'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
 
 const clientId = import.meta.env['VITE_GOOGLE_CLIENT_ID']
 const base_url = "http://localhost:8080"
-
-function Card({type, content}) {
-  let class_name = "card text-white"
-  if (type == "success") {
-    class_name += " bg-darkgreen"
-  } else if (type == "error") {
-    class_name += " bg-darkred"
-  }
-
-  return (
-    <div className={class_name}>
-      {content}
-    </div>
-  )
-}
 
 function validateCredential(credential, setLogin) {
   fetch(`${base_url}/login/google`, {
@@ -55,7 +41,7 @@ function App() {
 
   return (
     <>
-      <div className="card">
+      <Card>
         <p>Wellcome to the login page</p>
         { !login.logged && (
           <>
@@ -73,11 +59,11 @@ function App() {
           </>
         )
         }
-      </div>
+      </Card>
       <br /><br />
       <>
-        { login.success === true && <Card content="Success!" type="success" /> }
-        { login.success === false && <Card content={login.message} type="error" /> }
+        { login.success === true && <Card type="success">Success</Card> }
+        { login.success === false && <Card type="error">{login.message}</Card> }
       </>
     </>
   )
