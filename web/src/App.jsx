@@ -45,7 +45,7 @@ function App() {
       </div>
       <br /><br />
       { login.success === true && <Card content="Success!" type="success" /> }
-      { login.success === false && <Card content={"Error logging!\n" + login.message} type="error" /> }
+      { login.success === false && <Card content={login.message} type="error" /> }
     </>
   )
 }
