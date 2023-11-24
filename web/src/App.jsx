@@ -43,39 +43,42 @@ function validateCredential(credential, setLogin) {
       throw new Error(error)
     }).
   then(data => {
-    console.log(data)
-    setLogin({success: true})
+    setLogin({success: true, logged: true})
   }).
   catch(error => {
-    console.log(error)
-    setLogin({success: false, message: error})
+    setLogin({success: false, logged: false, message: "Error connecting to backend\n" + error})
   })
 }
 
 function App() {
-  const clientId = import.meta.env['VITE_GOOGLE_CLIENT_ID']
   const [login, setLogin] = useState({logged: false, errorMessage: null})  
-  const base_url = "http://localhost:8080"
 
   return (
     <>
       <div className="card">
         <p>Wellcome to the login page</p>
-        <p>Please choose your google account to do login</p>
-        <br /><br />
-        <GoogleOAuthProvider clientId={clientId}>
-          <GoogleLogin
-            onSuccess={validateCredential}
-            onError={() => {
-              console.log('Login Failed');
-              setLogin({success: false, message: "Error loggin with google"})
-            }}
-          />
-        </GoogleOAuthProvider>
+        { !login.logged && (
+          <>
+            <p>Please choose your google account to do login</p>
+            <br /><br />
+            <GoogleOAuthProvider clientId={clientId}>
+              <GoogleLogin
+                onSuccess={credentialResponse => validateCredential(credentialResponse, setLogin) }
+                onError={() => {
+                  console.log('Login Failed');
+                  setLogin({success: false, message: "Error loggin with google"})
+                }}
+              />
+            </GoogleOAuthProvider>
+          </>
+        )
+        }
       </div>
       <br /><br />
-      { login.success === true && <Card content="Success!" type="success" /> }
-      { login.success === false && <Card content={login.message} type="error" /> }
+      <>
+        { login.success === true && <Card content="Success!" type="success" /> }
+        { login.success === false && <Card content={login.message} type="error" /> }
+      </>
     </>
   )
 }
