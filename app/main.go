@@ -39,9 +39,8 @@ type TokenInfo struct {
 
 // Store information about user profile to be sent as response in login
 type UserProfile struct {
-	name        string `json:"name"`
-	surname     string `json:"surname"`
-	picture_url string `json:"picture_url"`
+	Name        string `json:"name"`
+	Picture_url string `json:"picture_url"`
 }
 
 func main() {
@@ -72,15 +71,18 @@ func main() {
 
 		// Extract info from JWT token
 		token, _, err := new(jwt.Parser).ParseUnverified(login.Credential, &TokenInfo{})
-		if tokenInfo, ok := token.Claims.(*TokenInfo); ok {
+		tokenInfo, ok := token.Claims.(*TokenInfo)
+		if ok {
 			// Check if token is expired
 			if time.Now().Unix() > tokenInfo.ExpiresAt {
 				return c.JSON(http.StatusUnprocessableEntity, echo.Map{"message": "Expired auth token"})
 			}
 		}
 
+		userProfile := UserProfile{tokenInfo.Name, tokenInfo.Picture}
+
 		// Return HTTP 200 if success
-		return c.JSON(http.StatusOK, nil)
+		return c.JSON(http.StatusOK, &userProfile)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
