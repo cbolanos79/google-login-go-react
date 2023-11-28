@@ -73,3 +73,11 @@ body {
 h4 {
   margin: 0;
 }
+
+.profile {
+  display: grid;
+}
+
+.profile img {
+  border-radius: 50%;
+}
