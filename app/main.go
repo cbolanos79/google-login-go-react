@@ -37,6 +37,13 @@ type TokenInfo struct {
 	jwt.StandardClaims
 }
 
+// Store information about user profile to be sent as response in login
+type UserProfile struct {
+	name        string `json:"name"`
+	surname     string `json:"surname"`
+	picture_url string `json:"picture_url"`
+}
+
 func main() {
 	google_client_id := os.Getenv("GOOGLE_CLIENT_ID")
 
