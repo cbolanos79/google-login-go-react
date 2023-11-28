@@ -37,6 +37,11 @@ function validateCredential(credential, setLogin, setUser) {
   })
 }
 
+function logout(setUser, setLogin) {
+  setUser({})
+  setLogin({logged: false})
+}
+
 function App() {
   const [login, setLogin] = useState({logged: false, errorMessage: null})  
   const [user, setUser] = useState({})
@@ -49,6 +54,7 @@ function App() {
            <div className="profile">
              <img src={user.picture_url} />{user.name}
            </div>
+           <a href="#" onClick={() => logout(setUser, setLogin)}>Logout</a>
          </>
         )
         }
